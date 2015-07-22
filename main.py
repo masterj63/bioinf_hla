@@ -1,35 +1,34 @@
-# open file and read lines
-my_fastq = open('child10_S4_L001_R1_001.fastq', 'r')
-my_fastq = my_fastq.readlines()
+from filters import filter_by_quality
 
-from fastq_format import qualities_map
+# open file and read lines
+fastq_in = open('child10_S4_L001_R1_001.fastq', 'r')
+fastq_in = fastq_in.readlines()
+
+fastq_out = open('out_child10_S4_L001_R1_001.fastq', 'w')
+
+
+def out_write(line):
+    fastq_out.write(line)
+    fastq_out.write('\n')
+
 
 # iterate over the lines
-delim = '=' * 20
 i = 0
-j = 0
-while i < len(my_fastq):
+while i < len(fastq_in):
     if i > 850:
         break
 
-    name = my_fastq[0 + i]  # @name
-    atgc = my_fastq[1 + i]  # ATGC
-    # name = fastq[2 + i] # plus
-    qual = my_fastq[3 + i]  # !@~{|}
+    name = fastq_in[0 + i].strip()  # @name
+    atgc = fastq_in[1 + i].strip()  # ATGC
+    # name = fastq[2 + i].strip() # plus
+    quals = fastq_in[3 + i].strip()  # !@~{|}
     i += 4
 
-    good = True
-    for q in qual[:20]:
-        q = qualities_map[q]
-        if q < 34:
-            good = False
-            break
+    f_atgc, f_quals = filter_by_quality(atgc, quals)
 
-    if not good:
-        continue
-    # print(i // 4, end=' ')
-    print(i, end=' ')
-    j += 1
-    if j == 20:
-        print()
-        j = 0
+    out_write(name)
+    out_write(f_atgc)
+    out_write('+')
+    out_write(f_quals)
+
+fastq_out.close()

@@ -1,4 +1,6 @@
-from fastq_format import qualities_map
+from functools import reduce
+
+from fastq_format import symb_num_qualities_map, num_symb_qualities_map
 
 WINDOW_SIZE = 15
 LOW_QUAL_VALUE = 20
@@ -7,7 +9,7 @@ BAD_WINDOW_CRITERION = 10
 
 ## Cuts off 'bad' preffix and suffix from genome `atgc`.
 def filter_by_quality(atgc, quals):
-    quals = list(map(lambda c: qualities_map[c], quals))
+    quals = list(map(lambda c: symb_num_qualities_map[c], quals))
 
     # -->
     count = initialize_window(quals, from_left=True)
@@ -32,8 +34,12 @@ def filter_by_quality(atgc, quals):
         cut_end_pos -= 1
         curr_off -= 1
 
-    quals = quals[:cut_end_pos]
     atgc = atgc[:cut_end_pos]
+
+    quals = quals[:cut_end_pos]
+    quals = map(lambda x: num_symb_qualities_map[x], quals)
+    quals = list(quals)
+    quals = reduce(lambda x, y: x + y, quals, '')
 
     return (atgc, quals)
 

@@ -14,9 +14,10 @@ def out_write(line):
 
 # iterate over the lines
 i = 0
+len_dist = {}
 while i < len(fastq_in):
-    if i > 850:
-        break
+    # if i > 850:
+    #     break
 
     name = fastq_in[0 + i].strip()  # @name
     atgc = fastq_in[1 + i].strip()  # ATGC
@@ -24,11 +25,23 @@ while i < len(fastq_in):
     quals = fastq_in[3 + i].strip()  # !@~{|}
     i += 4
 
-    f_atgc, f_quals = filter_by_quality(atgc, quals)
+    filtered_atgc, filtered_quals = filter_by_quality(atgc, quals)
 
     out_write(name)
-    out_write(f_atgc)
+    out_write(filtered_atgc)
     out_write('+')
-    out_write(f_quals)
+    out_write(filtered_quals)
+
+    t = len(filtered_atgc)
+    if t not in len_dist:
+        len_dist[t] = 0
+    len_dist[t] += 1
 
 fastq_out.close()
+
+for i in range(0, 302):
+    # print(i)
+    if i not in len_dist:
+        print(0)
+    else:
+        print(len_dist[i])

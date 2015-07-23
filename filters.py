@@ -41,12 +41,12 @@ def filter_by_quality(atgc, quals):
     quals = list(quals)
     quals = reduce(lambda x, y: x + y, quals, '')
 
-    return (atgc, quals)
+    return atgc, quals
 
 
-def filter_by_length(atgc):
+def filter_by_length(atgc, quals):
     # TODO
-    return atgc
+    return atgc, quals
 
 
 ### PRIVATE ROUTINES

@@ -14,7 +14,10 @@ def out_write(line):
 
 
 i = 0
+reads_total = 0
+reads_cut_off = 0
 while i < len(fastq_in):
+    reads_total += 1
     name = fastq_in[0 + i].strip()  # @name
     atgc = fastq_in[1 + i].strip()  # ATGC
     # name = fastq[2 + i].strip() # plus
@@ -26,6 +29,11 @@ while i < len(fastq_in):
         out_write(atgc)
         out_write('+')
         out_write(quals)
+    else:
+        reads_cut_off += 1
 
 file_in.close()
 file_out.close()
+
+print('reads total: {}'.format(reads_total))
+print('reads cut off: {} ({}%)'.format(reads_cut_off, reads_cut_off / reads_total))

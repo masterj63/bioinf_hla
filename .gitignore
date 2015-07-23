@@ -45,6 +45,6 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 
-*.fastq
+*.fastq*
 __pycache__
 

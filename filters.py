@@ -44,9 +44,8 @@ def filter_by_quality(atgc, quals):
     return atgc, quals
 
 
-def filter_by_length(atgc, quals):
-    # TODO
-    return atgc, quals
+def filter_is_too_short(atgc):
+    return len(atgc) <= 30
 
 
 ### PRIVATE ROUTINES

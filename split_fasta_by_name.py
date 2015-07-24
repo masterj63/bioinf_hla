@@ -2,13 +2,14 @@ from sys import argv
 
 
 def extract_keyword(name):
-    if (':' not in name) or ('*' not in name):
+    kw_from, kw_to = '>HLA', '*'
+    if (kw_from not in name) or (kw_to not in name):
         return 'trash'
-    i = name.index(':')
-    j = name.index('*')
+    i = name.index(kw_from) + len(kw_from)
+    j = name.index(kw_to)
     if i > j:
         return 'trash'
-    return name[i:1 + j]
+    return name[i:j]
 
 
 file_name_in = argv[1]

@@ -3,8 +3,8 @@ from sys import argv
 file_name_in = argv[1]
 file_name_out = argv[2]
 
-fasta_out = open(file_name_out, 'w')
 fasta_in = open(file_name_in, 'r')
+fasta_out = open(file_name_out, 'w')
 
 lines = fasta_in.readlines()
 

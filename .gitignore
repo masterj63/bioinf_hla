@@ -46,5 +46,6 @@ crashlytics.properties
 crashlytics-build.properties
 
 *.fastq*
+*.fasta*
 __pycache__
 
